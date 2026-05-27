@@ -14,6 +14,7 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+//====== NAVLINKS  ===========
 const navLinks = [
   { title: "Home", path: "/" },
   { title: "About Page", path: "/about" },
