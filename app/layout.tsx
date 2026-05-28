@@ -18,6 +18,7 @@ const fontMono = Geist_Mono({
 const navLinks = [
   { title: "Home", path: "/" },
   { title: "About Page", path: "/about" },
+  { title: "Posts Page", path: "/posts" },
 ]
 
 export default function RootLayout({
