@@ -19,3 +19,11 @@ To use the components in your app, import them as follows:
 ```tsx
 import { Button } from "@/components/ui/button";
 ```
+
+##
+
+## npx prisma migrate dev --name init
+
+## npx prisma db seed
+
+## npx prisma generate
