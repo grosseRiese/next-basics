@@ -19,6 +19,7 @@ const navLinks = [
   { title: "Home", path: "/" },
   { title: "About Page", path: "/about" },
   { title: "Posts Page", path: "/posts" },
+  { title: "Create Post", path: "/posts/create" },
 ]
 
 export default function RootLayout({
