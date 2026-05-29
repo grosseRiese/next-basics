@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma"
+import { notFound } from "next/navigation"
 
 /**
  * 
@@ -8,15 +9,18 @@ import prisma from "@/lib/prisma"
  */
 
 export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
-  const { id } = await props.params
+  const params = await props.params //OR:   const {id} = await props.params
+  if (!params.id) {
+    notFound()
+  }
   const post = await prisma.post.findUnique({
     where: {
-      id,
+      id: params.id,
     },
   })
 
   if (!post) {
-    return <p>Post not found</p>
+    notFound()
   }
 
   return (
