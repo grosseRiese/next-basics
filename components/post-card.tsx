@@ -24,7 +24,7 @@ type Props = {
 }
 function PostCard({ post }: Props) {
   return (
-    <Card>
+    <Card key={post.id}>
       <CardHeader>
         <CardTitle>
           <h2>{post.title}</h2>
