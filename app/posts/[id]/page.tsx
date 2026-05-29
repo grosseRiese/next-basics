@@ -1,11 +1,14 @@
 import prisma from "@/lib/prisma"
 
-export default async function PostPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = await params
+/**
+ * 
+ * export default async function PostDetailsPage({params,}: {params: Promise<{ id: string }>}) {}
+ * OR
+ export default async function PostDetailsPage(props: PageProps<"/posts/[postId]">){}
+ */
+
+export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
+  const { id } = await props.params
   const post = await prisma.post.findUnique({
     where: {
       id,
@@ -17,16 +20,12 @@ export default async function PostPage({
   }
 
   return (
-    <div className="-mt-16 flex min-h-screen flex-col items-center justify-center bg-gray-50">
-      <article className="max-w-2xl space-y-4">
-        <h1 className="mb-8 text-4xl font-bold text-[#333333]">{post.title}</h1>
-        <p className="text-center text-gray-600">
-          Created At: {post.createdAt?.toLocaleDateString()}
-        </p>
-        <div className="prose prose-gray mt-8">
-          {post.content || "No content available."}
-        </div>
-        <p className="text-center text-gray-600">
+    <div className="">
+      <article className="p-4">
+        <h1 className="text-4xl font-bold">{post.title}</h1>
+        <p className="">Created At: {post.createdAt?.toLocaleDateString()}</p>
+        <div className="">{post.content || "No content available."}</div>
+        <p className="text-center">
           Updated At: {post.updatedAt?.toLocaleDateString()}
         </p>
       </article>
