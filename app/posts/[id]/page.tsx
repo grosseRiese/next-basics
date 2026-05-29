@@ -2,9 +2,9 @@ import prisma from "@/lib/prisma"
 
 /**
  * 
- * export default async function PostDetailsPage({params,}: {params: Promise<{ id: string }>}) {}
+ * export default async function PostDetailsPage({params}: {params: Promise<{ id: string }>}) {}
  * OR
- export default async function PostDetailsPage(props: PageProps<"/posts/[postId]">){}
+ export default async function PostDetailsPage(props: PageProps<"/posts/[id]">){}
  */
 
 export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
