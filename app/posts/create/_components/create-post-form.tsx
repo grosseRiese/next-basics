@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { createPost } from "../_actions/post-actions"
 import { Toaster } from "@/components/ui/sonner"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   title: z
@@ -26,6 +27,8 @@ const formSchema = z.object({
     .max(5000, "Content must be less than 5000 characters"),
 })
 function CreatePostForm() {
+  const router = useRouter()
+
   const form = useForm({
     defaultValues: {
       title: "",
@@ -42,8 +45,13 @@ function CreatePostForm() {
       // formData.append("title", value.title)
       // formData.append("content", value.content)
 
-      await createPost(value)
-      toast.success("Form submitted successfully")
+      const newPost = await createPost(value)
+      toast.success("Form submitted successfully", {
+        //postion: "bottom-center",
+        //duration:6000,
+      })
+
+      router.push(`/posts/${newPost.id}`)
     },
   })
 
@@ -57,8 +65,6 @@ function CreatePostForm() {
           form.handleSubmit()
         }}
       >
-        <Toaster />
-
         <FieldGroup>
           <form.Field name="title">
             {(field) => {
