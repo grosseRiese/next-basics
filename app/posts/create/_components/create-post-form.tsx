@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { handleSubmit } from "../actions"
+import { Toaster } from "@/components/ui/sonner"
 
 const formSchema = z.object({
   title: z
@@ -31,15 +32,17 @@ function CreatePostForm() {
     },
     validators: {
       onSubmit: formSchema,
+      onChange: formSchema,
+      onBlur: formSchema,
     },
+
     onSubmit: async ({ value }) => {
       const formData = new FormData()
       formData.append("title", value.title)
       formData.append("content", value.content)
-      await handleSubmit(formData)
 
-      toast.success("Form submitted successfully")
-      console.log(value)
+      await handleSubmit(formData)
+      toast.success("Post created")
     },
   })
 
@@ -53,25 +56,42 @@ function CreatePostForm() {
           form.handleSubmit()
         }}
       >
+        <Toaster />
         <FieldSet>
           <FieldGroup>
             <form.Field name="title">
               {(field) => (
-                <Input
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                />
+                <>
+                  <Input
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                  />
+                  {field.state.meta.isTouched &&
+                    field.state.meta.errors.length > 0 && (
+                      <p className="text-red-500">
+                        {field.state.meta.errors[0]?.message}
+                      </p>
+                    )}
+                </>
               )}
             </form.Field>
 
             <form.Field name="content">
               {(field) => (
-                <Textarea
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                />
+                <>
+                  <Textarea
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                  />
+                  {field.state.meta.isTouched &&
+                    field.state.meta.errors.length > 0 && (
+                      <p className="text-red-500">
+                        {field.state.meta.errors[0]?.message}
+                      </p>
+                    )}
+                </>
               )}
             </form.Field>
 
