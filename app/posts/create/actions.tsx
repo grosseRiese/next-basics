@@ -14,12 +14,14 @@ async function handleSubmit(form: FormData) {
         content,
       },
     })
+
     revalidatePath("/posts")
+    return { success: true }
   } catch (error) {
     console.error("Error creating post:", error)
     throw new Error("Failed to create post")
   }
-  redirect("/posts")
+  //redirect("/posts")
 }
 
 export { handleSubmit }
