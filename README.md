@@ -22,8 +22,29 @@ import { Button } from "@/components/ui/button";
 
 ##
 
+```create NEXT-react proj...
+
+```
+
+## npx create-next-app@latest
+
+## npm i next@latest react@latest react-dom@latest
+
+```bash
+ npx shadcn@latest init -t
+
+```
+
+## npx create-next-app@latest nextjs-prisma
+
+## npm install @prisma/client @prisma/adapter-pg dotenv pg
+
+## npx create-db
+
 ## npx prisma migrate dev --name init
 
 ## npx prisma db seed
 
 ## npx prisma generate
+
+## npx prisma studio
