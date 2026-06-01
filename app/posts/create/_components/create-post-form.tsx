@@ -8,12 +8,11 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-  FieldSet,
 } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { handleSubmit } from "../actions"
+import { createPost } from "../_actions/post-actions"
 import { Toaster } from "@/components/ui/sonner"
 
 const formSchema = z.object({
@@ -39,12 +38,12 @@ function CreatePostForm() {
     },
 
     onSubmit: async ({ value }) => {
-      const formData = new FormData()
-      formData.append("title", value.title)
-      formData.append("content", value.content)
+      // const formData = new FormData()
+      // formData.append("title", value.title)
+      // formData.append("content", value.content)
 
-      await handleSubmit(formData)
-      toast.success("Post created")
+      await createPost(value)
+      toast.success("Form submitted successfully")
     },
   })
 
@@ -97,9 +96,27 @@ function CreatePostForm() {
           </form.Field>
 
           <form.Field name="content">
-            {(field) => (
-              <>
-                <Textarea
+            {(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Content</FieldLabel>
+                  <Textarea
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    aria-invalid={isInvalid}
+                    className="h-48"
+                  />
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+              {
+                /* <><Textarea
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   onBlur={field.handleBlur}
@@ -109,9 +126,9 @@ function CreatePostForm() {
                     <p className="text-red-500">
                       {field.state.meta.errors[0]?.message}
                     </p>
-                  )}
-              </>
-            )}
+                  )} </>*/
+              }
+            }}
           </form.Field>
 
           <FieldSeparator />
