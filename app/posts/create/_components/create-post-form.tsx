@@ -4,7 +4,9 @@ import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import {
   Field,
+  FieldError,
   FieldGroup,
+  FieldLabel,
   FieldSeparator,
   FieldSet,
 } from "@/components/ui/field"
@@ -57,51 +59,67 @@ function CreatePostForm() {
         }}
       >
         <Toaster />
-        <FieldSet>
-          <FieldGroup>
-            <form.Field name="title">
-              {(field) => (
-                <>
+
+        <FieldGroup>
+          <form.Field name="title">
+            {(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
                   <Input
+                    id={field.name}
+                    name={field.name}
                     value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                  />
-                  {field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0 && (
-                      <p className="text-red-500">
-                        {field.state.meta.errors[0]?.message}
-                      </p>
-                    )}
-                </>
-              )}
-            </form.Field>
-
-            <form.Field name="content">
-              {(field) => (
-                <>
-                  <Textarea
-                    value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    onBlur={field.handleBlur}
+                    aria-invalid={isInvalid}
                   />
-                  {field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0 && (
-                      <p className="text-red-500">
-                        {field.state.meta.errors[0]?.message}
-                      </p>
-                    )}
-                </>
-              )}
-            </form.Field>
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+              // <>
+              //   <Input
+              //     value={field.state.value}
+              //     onChange={(e) => field.handleChange(e.target.value)}
+              //     onBlur={field.handleBlur}
+              //   />
+              //   {field.state.meta.isTouched &&
+              //     field.state.meta.errors.length > 0 && (
+              //       <p className="text-red-500">
+              //         {field.state.meta.errors[0]?.message}
+              //       </p>
+              //     )}
+              // </>
+            }}
+          </form.Field>
 
-            <FieldSeparator />
+          <form.Field name="content">
+            {(field) => (
+              <>
+                <Textarea
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                />
+                {field.state.meta.isTouched &&
+                  field.state.meta.errors.length > 0 && (
+                    <p className="text-red-500">
+                      {field.state.meta.errors[0]?.message}
+                    </p>
+                  )}
+              </>
+            )}
+          </form.Field>
 
-            <Field orientation="horizontal">
-              <Button type="submit">Create Post</Button>
-            </Field>
-          </FieldGroup>
-        </FieldSet>
+          <FieldSeparator />
+
+          <Field orientation="horizontal">
+            <Button type="submit">Create Post</Button>
+          </Field>
+        </FieldGroup>
       </form>
     </>
   )
