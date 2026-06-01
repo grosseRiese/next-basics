@@ -1,6 +1,7 @@
 "use server"
 import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 import { z } from "zod"
 
 const createPostSchema = z.object({
@@ -20,15 +21,15 @@ export async function createPost(values: z.infer<typeof createPostSchema>) {
 
   console.log(data)
   try {
-    await prisma.post.create({
+    const newPost = await prisma.post.create({
       data: {
         title: data.title,
         content: data.content,
       },
     })
-
-    revalidatePath("/posts")
-    return { success: true }
+    revalidatePath(`/posts`)
+    //redirect(`/posts/${newPost.id}`)
+    return newPost
   } catch (error) {
     console.error("Error creating post:", error)
     throw new Error("Failed to create post")
