@@ -2,9 +2,16 @@
 import z from "zod"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import {
+  Field,
+  FieldGroup,
+  FieldSeparator,
+  FieldSet,
+} from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { handleSubmit } from "../actions"
 
 const formSchema = z.object({
   title: z
@@ -26,26 +33,57 @@ function CreatePostForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      const formData = new FormData()
+      formData.append("title", value.title)
+      formData.append("content", value.content)
+      await handleSubmit(formData)
+
       toast.success("Form submitted successfully")
       console.log(value)
     },
   })
 
   return (
-    <form
-      method="POST"
-      className="space-y-4"
-      onSubmit={(e) => {
-        e.preventDefault()
-        form.handleSubmit()
-      }}
-    >
-      <FieldGroup>
-        <Field orientation="horizontal">
-          <Button type="submit">Create Post</Button>
-        </Field>
-      </FieldGroup>
-    </form>
+    <>
+      <form
+        method="POST"
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault()
+          form.handleSubmit()
+        }}
+      >
+        <FieldSet>
+          <FieldGroup>
+            <form.Field name="title">
+              {(field) => (
+                <Input
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                />
+              )}
+            </form.Field>
+
+            <form.Field name="content">
+              {(field) => (
+                <Textarea
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                />
+              )}
+            </form.Field>
+
+            <FieldSeparator />
+
+            <Field orientation="horizontal">
+              <Button type="submit">Create Post</Button>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+      </form>
+    </>
   )
 }
 
