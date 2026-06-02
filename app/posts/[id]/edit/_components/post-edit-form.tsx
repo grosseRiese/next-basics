@@ -1,8 +1,21 @@
 "use client"
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Spinner } from "@/components/ui/spinner"
+import { Textarea } from "@/components/ui/textarea"
 import { useForm } from "@tanstack/react-form"
+import { Save } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { z } from "zod"
+import { editPost } from "../_actions/post-actions"
 const formSchema = z.object({
   title: z
     .string()
@@ -21,7 +34,7 @@ type Props = {
   }
 }
 function PostEditForm({ post }: Props) {
-  //   const router = useRouter()
+  //const router = useRouter()
   const form = useForm({
     defaultValues: {
       title: post.title,
@@ -32,10 +45,17 @@ function PostEditForm({ post }: Props) {
       onChange: formSchema,
     },
 
-    onSubmit: async ({ value }) => {
+    onSubmit: async ({ value, formApi }) => {
+      const updatedPost = await editPost({
+        ...value,
+        id: post.id,
+      })
+      formApi.reset({
+        title: updatedPost.title,
+        content: updatedPost.content,
+      })
       toast.success("Form edited successfully", {})
-
-      // router.push(`/posts`)
+      //router.push(`/posts/${updatedPost.id}/edit`)
     },
   })
   return (
@@ -46,7 +66,81 @@ function PostEditForm({ post }: Props) {
         e.preventDefault()
         form.handleSubmit()
       }}
-    ></form>
+    >
+      <FieldGroup>
+        <form.Field name="title">
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Title</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="content">
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Content</FieldLabel>
+                <Textarea
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  className="h-48"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <FieldSeparator />
+        <form.Subscribe selector={(state) => [state.isSubmitting] as const}>
+          {([isSubmitting]) => (
+            <Field orientation="horizontal">
+              <Button
+                type="reset"
+                disabled={isSubmitting}
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  form.reset()
+                }}
+                variant="outline"
+              >
+                Reset
+              </Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? <Spinner /> : <Save />}
+                Save Post
+              </Button>
+            </Field>
+          )}
+        </form.Subscribe>
+
+        {/* <Field orientation="horizontal">
+          <Button type="submit">Save Post</Button>
+        </Field> */}
+      </FieldGroup>
+    </form>
   )
 }
 
