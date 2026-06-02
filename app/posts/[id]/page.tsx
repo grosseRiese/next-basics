@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma"
 import { Edit } from "lucide-react"
 import { notFound } from "next/navigation"
 import { DeletePostBtn } from "./_components/delete-post-btn"
+import Link from "next/link"
 
 /**
  * 
@@ -40,10 +41,18 @@ export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
           Updated At: {post.updatedAt?.toLocaleDateString()}
         </p>
         <div className="flex gap-2">
-          <Button variant="outline">
+          {/* <Button variant="outline">
             <Edit />
             Edit
+          </Button> */}
+
+          <Button variant="outline" asChild>
+            <Link href={`/posts/${post.id}/edit`}>
+              <Edit />
+              Edit
+            </Link>
           </Button>
+
           <DeletePostBtn
             action={async () => {
               "use server"
