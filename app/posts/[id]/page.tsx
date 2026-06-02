@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import prisma from "@/lib/prisma"
-import { Edit, Trash } from "lucide-react"
+import { Edit } from "lucide-react"
 import { notFound } from "next/navigation"
 import { DeletePostBtn } from "./_components/delete-post-btn"
 
@@ -54,10 +54,6 @@ export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
               })
             }}
           />
-          {/* <Button variant="destructive">
-            <Trash />
-            Delete
-          </Button> */}
         </div>
       </article>
     </div>

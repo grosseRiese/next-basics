@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { createPost } from "../_actions/post-actions"
-import { Toaster } from "@/components/ui/sonner"
 import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
@@ -41,10 +40,6 @@ function CreatePostForm() {
     },
 
     onSubmit: async ({ value }) => {
-      // const formData = new FormData()
-      // formData.append("title", value.title)
-      // formData.append("content", value.content)
-
       const newPost = await createPost(value)
       toast.success("Form submitted successfully", {
         //postion: "bottom-center",
@@ -85,19 +80,6 @@ function CreatePostForm() {
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               )
-              // <>
-              //   <Input
-              //     value={field.state.value}
-              //     onChange={(e) => field.handleChange(e.target.value)}
-              //     onBlur={field.handleBlur}
-              //   />
-              //   {field.state.meta.isTouched &&
-              //     field.state.meta.errors.length > 0 && (
-              //       <p className="text-red-500">
-              //         {field.state.meta.errors[0]?.message}
-              //       </p>
-              //     )}
-              // </>
             }}
           </form.Field>
 
@@ -121,19 +103,6 @@ function CreatePostForm() {
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               )
-              {
-                /* <><Textarea
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                />
-                {field.state.meta.isTouched &&
-                  field.state.meta.errors.length > 0 && (
-                    <p className="text-red-500">
-                      {field.state.meta.errors[0]?.message}
-                    </p>
-                  )} </>*/
-              }
             }}
           </form.Field>
 

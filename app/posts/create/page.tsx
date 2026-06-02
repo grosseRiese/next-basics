@@ -1,4 +1,3 @@
-import prisma from "@/lib/prisma"
 import { CreatePostForm } from "./_components/create-post-form"
 
 export default function CreatePostPage(props: PageProps<"/posts/create">) {
