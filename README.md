@@ -26,15 +26,6 @@ import { Button } from "@/components/ui/button";
 
 ```
 
-## npx create-next-app@latest
-
-## npm i next@latest react@latest react-dom@latest
-
-```bash
- npx shadcn@latest init -t
-
-```
-
 ## npx create-next-app@latest nextjs-prisma
 
 ## npm install prisma @prisma/client @prisma/adapter-pg dotenv pg
@@ -48,3 +39,33 @@ import { Button } from "@/components/ui/button";
 ## npx prisma generate
 
 ## npx prisma studio
+
+###############################################
+
+# Create the Next.js project
+
+npx create-next-app@latest book-management-system
+
+# Enter the project folder
+
+cd book-management-system
+
+# Install Prisma
+
+npm install prisma @prisma/client
+
+# Initialize Prisma
+
+npx prisma init
+
+# Install Zod
+
+npm install zod
+
+# (Optional, but commonly used with forms)
+
+npm install react-hook-form @hookform/resolvers
+
+# Start the development server
+
+npm run dev
