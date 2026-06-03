@@ -30,6 +30,8 @@ import { Button } from "@/components/ui/button";
 
 ## npm install @prisma/client @prisma/adapter-pg dotenv pg
 
+## npx prisma init
+
 ## npx create-db
 
 ## npx prisma migrate dev --name init
