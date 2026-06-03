@@ -37,7 +37,7 @@ import { Button } from "@/components/ui/button";
 
 ## npx create-next-app@latest nextjs-prisma
 
-## npm install @prisma/client @prisma/adapter-pg dotenv pg
+## npm install prisma @prisma/client @prisma/adapter-pg dotenv pg
 
 ## npx create-db
 
