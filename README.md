@@ -71,3 +71,7 @@ npm install react-hook-form @hookform/resolvers
 # Start the development server
 
 npm run dev
+
+## ######### AUTH BETTER
+
+## npm install better-auth
