@@ -1,13 +1,17 @@
+import { redirect } from "next/navigation"
 import { CreatePostForm } from "./_components/create-post-form"
+import { headers } from "next/headers"
+import { auth } from "@/lib/auth"
 
-export default function CreatePostPage(props: PageProps<"/posts/create">) {
-  //const { title, content } = props.params
-  // const post = prisma.post.create({
-  //   data: {
-  //     title,
-  //     content,
-  //   },
-  // })
+export default async function CreatePostPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect("/sign-in")
+  }
+
   return (
     <div className="mx-auto max-w-prose p-4">
       <h1 className="mb-4 text-2xl font-bold">Create Post</h1>

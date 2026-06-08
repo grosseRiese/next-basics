@@ -77,3 +77,5 @@ npm run dev
 ## npm install better-auth
 
 ## npx auth@latest generate
+
+## "better-auth": "1.6.11", => and then npm i
