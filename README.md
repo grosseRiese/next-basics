@@ -75,3 +75,5 @@ npm run dev
 ## ######### AUTH BETTER
 
 ## npm install better-auth
+
+## npx auth@latest generate

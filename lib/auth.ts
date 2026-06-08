@@ -9,5 +9,16 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+
+    async sendResetPassword(data) {
+      console.log("Passwaor Reset:", data.url)
+    },
+  },
+  emailVerification: {
+    sendOnSignIn: true,
+    sendOnSignUp: true,
+    async sendVerificationEmail(data) {
+      console.log("Email  Verification:", data.url)
+    },
   },
 })
