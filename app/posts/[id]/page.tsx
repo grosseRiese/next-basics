@@ -39,41 +39,54 @@ export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
   })
 
   return (
-    <div className="">
-      <article className="mx-auto max-w-prose space-y-4 p-4">
-        <h1 className="text-4xl font-bold">{post.title}</h1>
-        <p className="text-sm font-medium text-muted-foreground">
-          Created At: {post.createdAt?.toLocaleDateString()}
-        </p>
-        <div className="whitespace-pre-line">
-          {post.content || "No content available."}
+    <div className="mx-auto max-w-prose space-y-4 p-4">
+      <h1 className="text-4xl font-bold">{post.title}</h1>
+
+      {session && session.user.id === post.authorId && (
+        <div className="flex gap-2">
+          {/* <Button variant="secondary">
+          <Edit />
+          Edit
+        </Button> */}
+          <Button variant="secondary" asChild>
+            <Link href={`/posts/${post.id}/edit`}>
+              <Edit />
+              Edit
+            </Link>
+          </Button>
+
+          {/* <Button variant="destructive">
+          <Trash />
+          Delete
+        </Button> */}
+          <DeletePostButton
+            // action={deleteAction.bind(null, post.id)}
+            // action={() => deleteAction(post.id)}
+            action={async () => {
+              "use server"
+              const session = await auth.api.getSession({
+                headers: await headers(),
+              })
+
+              if (!session) {
+                redirect("/sign-in")
+              }
+
+              await prisma.post.delete({
+                where: { id: post.id, authorId: session.user.id },
+              })
+            }}
+          />
         </div>
-        <p className="text-sm font-medium text-muted-foreground">
-          Updated At: {post.updatedAt?.toLocaleDateString()}
-        </p>
+      )}
 
-        {session && session?.user.id === post.authorId && (
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
-              <Link href={`/posts/${post.id}/edit`}>
-                <Edit />
-                Edit
-              </Link>
-            </Button>
+      <div className="text-sm font-medium text-muted-foreground">
+        <p>Author: {post.author?.name ?? "Unknown author"}</p>
+        <p>Created at: {post.createdAt.toLocaleDateString()}</p>
+        <p>Updated at: {post.updatedAt.toLocaleDateString()}</p>
+      </div>
 
-            <DeletePostBtn
-              action={async () => {
-                "use server"
-                await prisma.post.delete({
-                  where: {
-                    id: post.id,
-                  },
-                })
-              }}
-            />
-          </div>
-        )}
-      </article>
+      <p className="whitespace-pre-line">{post.content}</p>
     </div>
   )
 }
