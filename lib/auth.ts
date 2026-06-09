@@ -10,6 +10,7 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    //autoSignIn: false, //defaults to true
 
     async sendResetPassword(data) {
       console.log("Passwaor Reset:", data.url)
@@ -22,5 +23,11 @@ export const auth = betterAuth({
       console.log("Email  Verification:", data.url)
     },
   },
+
+  //  session: {
+  //       expiresIn: 60 * 60 * 24 * 7, // 7 days
+  //       updateAge: 60 * 60 * 24 // 1 day (every 1 day the session expiration is updated)
+  //   },
+
   plugins: [nextCookies()], // make sure this is the last plugin in the array
 })
