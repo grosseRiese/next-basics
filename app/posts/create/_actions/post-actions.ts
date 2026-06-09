@@ -1,6 +1,8 @@
 "use server"
+import { auth } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { z } from "zod"
 
@@ -16,15 +18,22 @@ const createPostSchema = z.object({
 })
 
 export async function createPost(values: z.infer<typeof createPostSchema>) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect("/sign-in")
+  }
   //const { title, content } = createPostSchema.parse(values);
   const data = createPostSchema.parse(values)
-
-  console.log(data)
+  // console.log(data)
   try {
     const newPost = await prisma.post.create({
       data: {
         title: data.title,
         content: data.content,
+        authorId: session.user.id,
       },
     })
     revalidatePath(`/posts`)

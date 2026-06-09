@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { RegisterForm } from "./_components/register-form"
 
 export default async function RegisterPage() {
   const session = await auth.api.getSession({
@@ -12,8 +13,9 @@ export default async function RegisterPage() {
   }
 
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="mx-auto max-w-prose p-4">
+      <h1 className="mb-4 text-2xl font-bold">Register Page</h1>
+      <RegisterForm />
     </div>
   )
 }

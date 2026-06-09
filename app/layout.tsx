@@ -42,9 +42,10 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <header className="flex h-16 items-center border-b">
-            <nav className="flex">
-              {/* <Button asChild variant="ghost">
+          <div className="mx-auto mb-10 max-w-7xl">
+            <header className="flex h-16 items-center border-b">
+              <nav className="flex">
+                {/* <Button asChild variant="ghost">
                 <Link href="/">Home</Link>
                 {/* <a href="/">Home</a> * /}
               </Button>
@@ -53,13 +54,14 @@ export default function RootLayout({
                 {/* <a href="/about">About</a> * /}
               </Button> */}
 
-              {navLinks.map((link) => (
-                <Button asChild variant="ghost" key={link.title}>
-                  <Link href={link.path}>{link.title}</Link>
-                </Button>
-              ))}
-            </nav>
-          </header>
+                {navLinks.map((link) => (
+                  <Button asChild variant="ghost" key={link.title}>
+                    <Link href={link.path}>{link.title}</Link>
+                  </Button>
+                ))}
+              </nav>
+            </header>
+          </div>
           {children}
           <Toaster position="bottom-right" richColors />
         </ThemeProvider>
