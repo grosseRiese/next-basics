@@ -13,8 +13,8 @@ export default async function CreatePostPage() {
   }
 
   return (
-    <div className="mx-auto max-w-prose p-4">
-      <h1 className="mb-4 text-2xl font-bold">Create Post</h1>
+    <div className="mx-auto max-w-prose space-y-4 p-4">
+      <h1 className="text-4xl font-bold">Create Post</h1>
       <CreatePostForm />
     </div>
   )

@@ -52,67 +52,64 @@ function CreatePostForm() {
 
   return (
     <>
-      <form
-        method="POST"
-        className="space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault()
-          form.handleSubmit()
-        }}
-      >
-        <FieldGroup>
-          <form.Field name="title">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid
+       <form
+      method="POST"
+      onSubmit={(ev) => {
+        ev.preventDefault()
+        form.handleSubmit(ev)
+      }}
+    >
+      <FieldGroup>
+        <form.Field name="title">
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
 
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              )
-            }}
-          </form.Field>
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Title</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(ev) => field.handleChange(ev.target.value)}
+                  onBlur={field.handleBlur}
+                  aria-invalid={isInvalid}
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
 
-          <form.Field name="content">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid
+        <form.Field name="content">
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
 
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Content</FieldLabel>
-                  <Textarea
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    className="h-48"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              )
-            }}
-          </form.Field>
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Content</FieldLabel>
+                <Textarea
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(ev) => field.handleChange(ev.target.value)}
+                  onBlur={field.handleBlur}
+                  aria-invalid={isInvalid}
+                  className="h-48"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
 
-          <FieldSeparator />
-
-          <Field orientation="horizontal">
-            <Button type="submit">Create Post</Button>
-          </Field>
-        </FieldGroup>
-      </form>
+        <Field orientation="horizontal">
+          <Button type="submit">Create Post</Button>
+        </Field>
+      </FieldGroup>
+    </form>
     </>
   )
 }
