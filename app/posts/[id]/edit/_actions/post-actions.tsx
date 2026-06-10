@@ -1,6 +1,9 @@
 "use server"
+import { auth } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 import { z } from "zod"
 
 const editPostSchema = z.object({
@@ -16,20 +19,28 @@ const editPostSchema = z.object({
 })
 
 export async function editPost(values: z.infer<typeof editPostSchema>) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect("/sign-in")
+  }
+
   const data = editPostSchema.parse(values)
 
   try {
     const updatedPost = await prisma.post.update({
       where: {
         id: data.id,
+        authorId: session.user.id,
       },
       data: {
         title: data.title,
         content: data.content,
       },
     })
-    //revalidatePath(`/posts`)
-    //redirect(`/posts/${updatedPost.id}`)
+
     return updatedPost
   } catch (error) {
     console.error("Error updating post:", error)
