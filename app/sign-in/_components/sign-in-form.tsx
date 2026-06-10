@@ -7,50 +7,44 @@ import {
   FieldLabel,
   FieldError,
 } from "@/components/ui/field"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
-import { authClient } from "@/lib/auth-client"
 import { useForm } from "@tanstack/react-form"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import z from "zod"
+import { authClient } from "@/lib/auth-client"
 
-const formSchema = z
-  .object({
-    name: z.string().min(2),
-    email: z.email(),
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    error: "Passwords don't match!",
-  })
+const formSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1),
+  rememberMe: z.boolean(),
+})
+
 function SignInForm() {
   const router = useRouter()
   const form = useForm({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      rememberMe: false,
     },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value)
-      const result = await authClient.signUp.email({
-        name: value.name,
+      const result = await authClient.signIn.email({
         email: value.email,
         password: value.password,
+        rememberMe: value.rememberMe,
       })
 
       if (result.error) {
-        toast.error(result.error.message || "Could not register account")
+        toast.error(result.error.message ?? "Faild to sign in")
         return
       }
 
-      toast.success("Registered account!")
+      toast.success("Successfully signed in!")
       router.push("/")
       router.refresh()
     },
@@ -109,24 +103,28 @@ function SignInForm() {
           }}
         </form.Field>
 
-        <form.Field name="confirmPassword">
+        <form.Field name="rememberMe">
           {(field) => {
             const isInvalid =
               field.state.meta.isTouched && !field.state.meta.isValid
 
             return (
-              <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
-                <Input
+              <Field data-invalid={isInvalid} orientation="horizontal">
+                <Checkbox
                   id={field.name}
                   name={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onChange={(ev) => field.handleChange(ev.target.value)}
+                  checked={field.state.value}
+                  onCheckedChange={(checked) => {
+                    if (checked === "indeterminate") {
+                      return
+                    }
+                    field.handleChange(checked)
+                  }}
                   onBlur={field.handleBlur}
                   aria-invalid={isInvalid}
                 />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+
+                <FieldLabel htmlFor={field.name}>Remember Me</FieldLabel>
               </Field>
             )
           }}
@@ -136,7 +134,7 @@ function SignInForm() {
           {(isSubmitting) => (
             <Field orientation="horizontal">
               <Button type="submit" disabled={isSubmitting}>
-                Register
+                Sign in
               </Button>
             </Field>
           )}
