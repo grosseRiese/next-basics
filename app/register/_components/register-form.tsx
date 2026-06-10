@@ -1,6 +1,12 @@
 "use client"
 
-import { Field, FieldGroup, FieldLabel,FieldError } from "@/components/ui/field"
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import { useForm } from "@tanstack/react-form"
@@ -50,7 +56,7 @@ function RegisterForm() {
     },
   })
   return (
-   <form
+    <form
       onSubmit={(ev) => {
         ev.preventDefault()
         form.handleSubmit()

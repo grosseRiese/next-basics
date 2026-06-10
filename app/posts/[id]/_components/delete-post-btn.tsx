@@ -32,7 +32,6 @@ function DeletePostBtn({ action }: Props) {
     <>
       <Button variant="destructive" onClick={handleClick} disabled={isLoading}>
         {isLoading ? <Spinner /> : "Delete"}
-        Delete
       </Button>
     </>
   )

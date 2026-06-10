@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import prisma from "@/lib/prisma"
 import { Edit, User } from "lucide-react"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { DeletePostBtn } from "./_components/delete-post-btn"
 import Link from "next/link"
 import { auth } from "@/lib/auth"
@@ -44,10 +44,6 @@ export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
 
       {session && session.user.id === post.authorId && (
         <div className="flex gap-2">
-          {/* <Button variant="secondary">
-          <Edit />
-          Edit
-        </Button> */}
           <Button variant="secondary" asChild>
             <Link href={`/posts/${post.id}/edit`}>
               <Edit />
@@ -55,13 +51,7 @@ export default async function PostDetailsPage(props: PageProps<"/posts/[id]">) {
             </Link>
           </Button>
 
-          {/* <Button variant="destructive">
-          <Trash />
-          Delete
-        </Button> */}
-          <DeletePostButton
-            // action={deleteAction.bind(null, post.id)}
-            // action={() => deleteAction(post.id)}
+          <DeletePostBtn
             action={async () => {
               "use server"
               const session = await auth.api.getSession({
