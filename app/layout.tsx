@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Toaster } from "@/components/ui/sonner"
+import { headers } from "next/headers"
+import { auth } from "@/lib/auth"
+import { SignOutButton } from "@/components/sign-out-button"
 // import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
@@ -22,13 +25,18 @@ const navLinks = [
   { title: "About Page", path: "/about" },
   { title: "Posts Page", path: "/posts" },
   { title: "Create Post", path: "/posts/create" },
+  // { title: "Register", path: "/register" },
+  // { title: "Sign In", path: "/sign-in" },
 ]
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
   return (
     <html
       lang="en"
@@ -44,7 +52,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="mx-auto mb-10 max-w-7xl">
             <header className="flex h-16 items-center border-b">
-              <nav className="flex">
+              <nav className="flex w-full">
                 {/* <Button asChild variant="ghost">
                 <Link href="/">Home</Link>
                 {/* <a href="/">Home</a> * /}
@@ -59,6 +67,21 @@ export default function RootLayout({
                     <Link href={link.path}>{link.title}</Link>
                   </Button>
                 ))}
+
+                {session ? (
+                  <SignOutButton variant="ghost" className="ml-auto">
+                    Sign Out
+                  </SignOutButton>
+                ) : (
+                  <>
+                    <Button asChild variant="ghost" className="ml-auto">
+                      <Link href="/register">Register</Link>
+                    </Button>
+                    <Button asChild variant="ghost">
+                      <Link href="/sign-in">Sign In</Link>
+                    </Button>
+                  </>
+                )}
               </nav>
             </header>
           </div>
