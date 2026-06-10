@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { SignInForm } from "./_components/sign-in-form"
 
 export default async function SignInPage() {
   const session = await auth.api.getSession({
@@ -15,6 +16,7 @@ export default async function SignInPage() {
     <>
       <div className="mx-auto max-w-prose p-4">
         <h1 className="mb-4 text-2xl font-bold">SignIn Page</h1>
+        <SignInForm />
       </div>
       {/* 
       <Card className="mx-auto w-full max-w-md">
