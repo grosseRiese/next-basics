@@ -79,3 +79,9 @@ npm run dev
 ## npx auth@latest generate
 
 ## "better-auth": "1.6.11", => and then npm i
+
+## ########### NodeMailer
+
+## npm install nodemailer
+
+## npm install @types/nodemailer -D
