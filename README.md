@@ -85,3 +85,7 @@ npm run dev
 ## npm install nodemailer
 
 ## npm install @types/nodemailer -D
+
+## npm install @react-email/ui react-email
+
+##
