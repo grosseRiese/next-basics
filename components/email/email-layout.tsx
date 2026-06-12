@@ -8,11 +8,18 @@ export default function EmailLayout({ children }: Props) {
     <Tailwind
       config={{
         presets: [pixelBasedPreset],
+        theme: {
+          extend: {
+            colors: {
+              brand: "#007291",
+            },
+          },
+        },
       }}
     >
       <Html>
         <Head />
-        <body></body>
+        <body className="font-sans">{children}</body>
       </Html>
     </Tailwind>
   )
