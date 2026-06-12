@@ -15,7 +15,11 @@ export const auth = betterAuth({
 
     async sendResetPassword(data) {
       console.log("Passwaor Reset:", data.url)
-      //nodeMailer
+      /**
+       * =================================================
+       *                  nodeMailer
+       * =================================================
+       */
       await sendEmail(
         data.user.email,
         "Password Reset",
@@ -34,7 +38,11 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     async sendVerificationEmail(data) {
       console.log("Email  Verification:", data.url)
-      //nodeMailer
+      /**
+       * =================================================
+       *                  nodeMailer
+       * =================================================
+       */
       await sendEmail(
         data.user.email,
         "Verify tour email",
@@ -47,11 +55,6 @@ export const auth = betterAuth({
       )
     },
   },
-
-  //  session: {
-  //       expiresIn: 60 * 60 * 24 * 7, // 7 days
-  //       updateAge: 60 * 60 * 24 // 1 day (every 1 day the session expiration is updated)
-  //   },
 
   plugins: [nextCookies()], // make sure this is the last plugin in the array
 })
