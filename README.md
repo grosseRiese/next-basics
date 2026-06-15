@@ -89,3 +89,25 @@ npm run dev
 ## npm install @react-email/ui react-email
 
 ##
+
+## ######## Git issue
+
+## git fetch origin
+
+## git checkout -b 1-create-a-new-issue
+
+## git add .
+
+## git commit -m "Fix issue #1"
+
+## git push -u origin 1-create-a-new-issue
+
+## git commit -m "Add README for issue #1"
+
+## git push
+
+## then verify with:
+
+## git log --oneline -5
+
+## git status =><should say : nothing to commit, working tree clean>
