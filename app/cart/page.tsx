@@ -11,6 +11,9 @@ export default async function CartPage() {
   return (
     <div>
       <h1> Cart </h1>
+      {/* {movies.map((movie)=>{
+        <CartItem movie={movie} quantity={cart[movie.id]} />
+      })} */}
     </div>
   )
 }
